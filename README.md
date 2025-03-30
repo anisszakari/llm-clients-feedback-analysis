@@ -32,7 +32,7 @@ Le tout est déployé sur **Google Cloud Run** avec **Terraform** et une pipelin
 
 ### **2️⃣ Cloner le repo**  
 ```sh
-git clone https://github.com/ton-repo/llm-clients-feedback-analysis.git
+git clone https://github.com/anisszakari/llm-clients-feedback-analysis.git
 cd llm-clients-feedback-analysis
 ```
 
