@@ -1,0 +1,33 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Services
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quiet
+
+      - name: Build & Push LLM Analysis Service
+        run: |
+          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/llm-analysis-service ./llm_analysis_service
+          gcloud run deploy llm-analysis-service             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/llm-analysis-service             --platform managed --region us-central1             --allow-unauthenticated             --set-env-vars OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+
+      - name: Build & Push Negative Feedback Handler
+        run: |
+          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/negative-feedback-handler ./negative_feedback_handler
+          gcloud run deploy negative-feedback-handler             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/negative-feedback-handler             --platform managed --region us-central1             --allow-unauthenticated             --set-env-vars SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }}
