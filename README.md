@@ -1,12 +1,14 @@
 # 📢 Feedback Analysis Project
 
-Ce projet analyse les **feedbacks clients** en utilisant un **LLM** (Large Language Model) pour détecter le **sentiment**. 
+Ce projet a pour but l'analyse des **feedbacks clients** en utilisant un **LLM** (Large Language Model) pour détecter le **sentiment**. 
 Si un feedback est négatif, un **email** est envoyé automatiquement à l'équipe support et au client.  
 Le tout est déployé sur **Google Cloud Run** avec **Terraform** et une pipeline **CI/CD via GitHub Actions**.
 
 ---
 
 ## 📌 **Architecture du projet**
+![Architecture](architecture/archi.png)
+
 ### 🏗️ **Les services :**
 1. **`llm_analysis_service`** 🧠  
    - Analyse le feedback avec un **LLM** (ex: OpenAI GPT-4).
@@ -94,4 +96,3 @@ curl -X POST "https://llm-analysis-service-url/analyze_feedback/"      -H "Conte
 ```
 
 ---
-
